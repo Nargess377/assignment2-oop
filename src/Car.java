@@ -20,8 +20,22 @@ public class Car extends Vehicle {
 
     @Override
     public double calculateInsuranceFee() {
-        int age = getAge(2025);
-        return getBasePrice() * 0.02 + age * 10;
+        int currentYear = java.time.Year.now().getValue();
+        int age = getAge(currentYear);
+        return getBasePrice() * 0.02 + age * 15;
+    }
+
+    @Override
+    public int getServiceIntervalKm() {
+        return 15000;
+    }
+
+    @Override
+    public void performService() {
+        System.out.println("Servicing CAR id=" + getId() + " (" + getModel() + ")");
+        System.out.println("- Oil change");
+        System.out.println("- Tire rotation");
+        System.out.println("Next service in " + getServiceIntervalKm() + " km.");
     }
 
     @Override
@@ -35,4 +49,5 @@ public class Car extends Vehicle {
                 '}';
     }
 }
+
 

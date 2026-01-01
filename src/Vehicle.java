@@ -1,4 +1,4 @@
-public abstract class Vehicle {
+public abstract class Vehicle implements Servicable {
 
     protected int id;
     protected static int idGen = 1;
@@ -24,7 +24,7 @@ public abstract class Vehicle {
 
     public void setModel(String model) {
         if (model == null || model.trim().isEmpty()) {
-            throw new IllegalArgumentException("Model must not be empty");
+            throw new IllegalArgumentException("Model must not be null or empty");
         }
         this.model = model.trim();
     }
@@ -34,8 +34,9 @@ public abstract class Vehicle {
     }
 
     public void setYear(int year) {
+        // اولین ماشین ۱۸۸۶ بوده، همینو می‌گیریم به عنوان حد پایین
         if (year < 1886 || year > 2100) {
-            throw new IllegalArgumentException("Invalid year");
+            throw new IllegalArgumentException("Year is out of reasonable range");
         }
         this.year = year;
     }
@@ -46,7 +47,7 @@ public abstract class Vehicle {
 
     public void setBasePrice(double basePrice) {
         if (basePrice <= 0) {
-            throw new IllegalArgumentException("Base price must be > 0");
+            throw new IllegalArgumentException("Base price must be positive");
         }
         this.basePrice = basePrice;
     }
@@ -56,16 +57,20 @@ public abstract class Vehicle {
         return Math.max(age, 0);
     }
 
+    // متد انتزاعی – زیرکلاس‌ها پیاده‌سازی می‌کنند
     public abstract double calculateInsuranceFee();
 
     @Override
     public String toString() {
-        return "Vehicle{" +
+        return getClass().getSimpleName() + "{" +
                 "id=" + id +
                 ", model='" + model + '\'' +
                 ", year=" + year +
                 ", basePrice=" + basePrice +
                 '}';
     }
+
+    // متدهای Servicable اینجا پیاده‌سازی نمی‌شن، توی Car و Bus پیاده می‌کنیم.
 }
+
 
